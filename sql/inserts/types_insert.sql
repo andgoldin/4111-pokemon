@@ -1,0 +1,16 @@
+INSERT INTO Types VALUES (1, 'Normal');
+INSERT INTO Types VALUES (2, 'Fire');
+INSERT INTO Types VALUES (3, 'Fighting');
+INSERT INTO Types VALUES (4, 'Water');
+INSERT INTO Types VALUES (5, 'Flying');
+INSERT INTO Types VALUES (6, 'Grass');
+INSERT INTO Types VALUES (7, 'Poison');
+INSERT INTO Types VALUES (8, 'Electric');
+INSERT INTO Types VALUES (9, 'Ground');
+INSERT INTO Types VALUES (10, 'Psychic');
+INSERT INTO Types VALUES (11, 'Rock');
+INSERT INTO Types VALUES (12, 'Ice');
+INSERT INTO Types VALUES (13, 'Bug');
+INSERT INTO Types VALUES (14, 'Dragon');
+INSERT INTO Types VALUES (15, 'Ghost');
+COMMIT;
