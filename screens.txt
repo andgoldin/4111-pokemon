@@ -1,0 +1,73 @@
+GET parameters:
+  - main page: index.html
+  - all pokemon view: pokemon_all.jsp
+  - single pokemon view: pokemon.jsp?id=<value>
+  - all moves view: move_all.jsp
+  - single move view: move.jsp?id=<value>
+  - all location view: location_all.jsp
+  - single location view: location.jsp?id=<value>
+  - single type view: type.jsp?id=<value>
+  - user account view: account.jsp?id=<value>
+  - single badge view: badge.jsp?id=<value>
+  - account creation page: account_create.jsp
+
+homepage:
+  - links to view all pokemon, all moves, all locations, etc.
+  - login/register
+
+all pokemon list
+  - list each pokemon with dex #, name, sprite, type, height, weight
+
+single pokemon view
+  - dex #
+  - sprite
+  - name
+  - type
+  - height
+  - weight
+  - learnset
+  - locations
+  - evolutions
+
+all move list
+  - move type
+  - move name
+  - category
+  - power
+  - accuracy
+
+single move view
+  - move type
+  - move name
+  - category
+  - power
+  - accuracy
+  - pokemon who can learn that move
+
+all location list
+  - location name
+
+single location view
+  - pokemon found in location
+  - adjacent locations
+  - pokemon found in adjacent locations
+
+single type view
+  - list of pokemon of that type
+  - list of moves of that type
+  - type effectiveness
+
+user account view
+  - add pokemon/add badge interface
+  - list pokemon
+  - list badges
+
+single badge view
+  - badge name
+  - location
+  - gym leader
+  - # of people who have earned that badge
+
+account creation page
+  - create account with empty display name
+  - "you account is: <number>"
