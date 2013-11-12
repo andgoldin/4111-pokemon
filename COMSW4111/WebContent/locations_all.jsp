@@ -18,7 +18,7 @@
 		ods.setURL("jdbc:oracle:thin:yg2346/vulpix123@//w4111b.cs.columbia.edu:1521/ADB");
 		conn = ods.getConnection();
 		Statement stmt = conn.createStatement();
-		rset = stmt.executeQuery("SELECT pokemonid, spriteurl, name FROM pokemon");
+		rset = stmt.executeQuery("SELECT L.LocationId, L.Name AS LocationName, R.Name AS RegionName FROM Locations L JOIN Regions R ON R.RegionId = L.RegionId");
 	} catch (SQLException e) {
 		error_msg = e.getMessage();
 		if (conn != null) {
@@ -30,29 +30,21 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Employee Table JSP Sample</title>
+<title>All Locations</title>
 </head>
 <body>
-	<h1>ENTERED: <%= request.getParameter("first_name") %> </h1>
-	<H2>Pokemon Table</H2>
-	<TABLE>
+	<H2>ALL LOCATIONS</H2>
+	<table style="border-spacing: 15px 2px;">
 		<tr>
-			<td>POKEMONID</td>
-			<td>SPRITE</td>
-			<td>NAME</td>
-		</tr>
+			<td><b>Location</b></td>
+			<td><b>Region</b></td>
 		<tr>
-			<td><b>--------------------</b></td>
-			<td><b>--------------------</b></td>
-			<td><b>--------------------</b></td>
-		</tr>
 		<%
 			if (rset != null) {
 				while (rset.next()) {
 					out.print("<tr>");
-					out.print("<td>" + rset.getInt("pokemonid") + "</td><td>"
-							+ "<img src=" + rset.getString("spriteurl") + " /></td><td>"
-							+ rset.getString("name") + "</td>");
+					out.print("<td><a href=location.jsp?id=" + rset.getString("locationid") + ">" + rset.getString("locationname") + "</a></td>");
+					out.print("<td>" + rset.getString("regionname") + "</td>");
 					out.print("</tr>");
 				}
 			} else {
@@ -62,6 +54,6 @@
 				conn.close();
 			}
 		%>
-	</TABLE>
+	</table>
 </body>
 </html>
