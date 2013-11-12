@@ -18,7 +18,15 @@
 		ods.setURL("jdbc:oracle:thin:yg2346/vulpix123@//w4111b.cs.columbia.edu:1521/ADB");
 		conn = ods.getConnection();
 		Statement stmt = conn.createStatement();
-		rset = stmt.executeQuery("SELECT L.LocationId, L.Name AS LocationName, R.Name AS RegionName FROM Locations L JOIN Regions R ON R.RegionId = L.RegionId");
+		rset = stmt.executeQuery(
+			"SELECT " +
+				"L.LocationId, " +
+				"L.Name AS LocationName, " +
+				"R.Name AS RegionName " +
+			"FROM Locations L " +
+			"JOIN Regions R " +
+				"ON R.RegionId = L.RegionId"
+		);
 	} catch (SQLException e) {
 		error_msg = e.getMessage();
 		if (conn != null) {

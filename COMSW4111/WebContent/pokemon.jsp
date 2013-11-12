@@ -52,11 +52,11 @@
 <title><%= pokemonInfo.getString("pokemonname") %> - Pokemon Information</title>
 </head>
 <body>
-	<h2>Pokemon Information</h2>
+	<h2>Pokemon: <i><%= pokemonInfo.getString("pokemonname") %></i></h2>
 	<%
 		if (pokemonInfo != null) {
 			out.print("<img src=" + pokemonInfo.getString("spriteurl") + " />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
-			out.print("#" + pokemonInfo.getString("pokemonid") + ": <b>" + pokemonInfo.getString("pokemonname") + "</b>");
+			out.print("National Pokedex #: " + pokemonInfo.getString("pokemonid"));
 		}
 	%>
 	<br>
