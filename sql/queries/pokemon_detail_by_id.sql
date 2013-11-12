@@ -2,7 +2,10 @@
 
 SELECT
 	P.PokemonId,
-	P.Name AS PokemonName
+	P.Name AS PokemonName,
+	P.SpriteURL,
+	P.Height,
+	P.Weight
 FROM POKEMON P
 WHERE P.PokemonId = 21
 
