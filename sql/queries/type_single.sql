@@ -1,4 +1,3 @@
-
 -- Single Type view
 -- Gets the info for a single type. Includes a list of pokemon of the type, Moves of the type, and effectiveness (both as attacker and receiver)
 
@@ -25,7 +24,7 @@ WHERE T.TypeId = 5
 	--Moves of a type
 SELECT 
 	M.MoveId,
-	M.Name AS MoveName,
+	M.Name AS MoveName
 FROM Moves M
 JOIN Types T
 	ON M.TypeId = T.TypeId
