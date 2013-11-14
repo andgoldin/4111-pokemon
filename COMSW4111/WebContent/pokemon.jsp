@@ -13,6 +13,8 @@
 	Statement stmt = null;
 	ResultSet pokemonInfo = null;
 	ResultSet typeInfo = null;
+	ResultSet evolveFromInfo = null;
+	ResultSet evolveIntoInfo = null;
 	ResultSet moveInfo = null;
 	ResultSet locationInfo = null;
 	String error_msg = "";
@@ -52,6 +54,7 @@
 <title><%= pokemonInfo.getString("pokemonname") %> - Pokemon Information</title>
 </head>
 <body>
+	<a href="index.jsp">Back to Homepage</a><br>
 	<h2>Pokemon: <i><%= pokemonInfo.getString("pokemonname") %></i></h2>
 	<%
 		if (pokemonInfo != null) {
@@ -80,11 +83,71 @@
 		}
 	%>
 	<br>
-	<h3>Evolution (NEED SQL QUERY!!!)</h3>
-	- Evolves from: none
+	<h3>Evolution</h3>
+	<table style="border-spacing: 20px 2px;">
+		<tr>
+			<td><b>Evolves from</b></td>
+			<td><b>Evolves into</b></td>
+		</tr>
+		<tr>
+		<%
+			// what does it evolve from?
+			evolveFromInfo = stmt.executeQuery(
+				"SELECT " +
+				    "E.BASEPOKEMONID, " +
+				    "P.Name AS PokemonName, " +
+				    "P.SpriteURL, " +
+				    "E.EvolutionLevel " +
+				"FROM Evolves E " +
+				"JOIN Pokemon P " +
+				        "ON E.BASEPOKEMONID = P.PokemonId " +
+				"WHERE E.EVOLVEDPOKEMONID = " + pid
+			);
+		
+			if (evolveFromInfo != null) {
+				if (evolveFromInfo.next()) {
+					out.print("<td>");
+					out.print("<img src=" + evolveFromInfo.getString("spriteurl") + " /><br>"
+							+ "#" + evolveFromInfo.getString("basepokemonid") + ": "
+							+ "<a href=pokemon.jsp?id=" + evolveFromInfo.getString("basepokemonid") + ">" + evolveFromInfo.getString("pokemonname") + "</a><br>"
+							+ "At level " + evolveFromInfo.getString("evolutionlevel"));
+					out.print("</td>");
+				}
+				else {
+					out.print("<td>None</td>");
+				}
+			}
+			
+			// what does it evolve into?
+			evolveIntoInfo = stmt.executeQuery(
+				"SELECT " +
+				    "E.EVOLVEDPOKEMONID, " +
+				    "P.Name AS PokemonName, " +
+				    "P.SpriteURL, " +
+				    "E.EvolutionLevel " +
+				"FROM Evolves E " +
+				"JOIN Pokemon P " +
+				        "ON E.EVOLVEDPOKEMONID = P.PokemonId " +
+				"WHERE E.BASEPOKEMONID = " + pid
+			);
+			if (evolveIntoInfo != null) {
+				if (evolveIntoInfo.next()) {
+					out.print("<td>");
+					out.print("<img src=" + evolveIntoInfo.getString("spriteurl") + " /><br>"
+							+ "#" + evolveIntoInfo.getString("evolvedpokemonid") + ": "
+							+ "<a href=pokemon.jsp?id=" + evolveIntoInfo.getString("evolvedpokemonid") + ">" + evolveIntoInfo.getString("pokemonname") + "</a><br>"
+							+ "At level " + evolveIntoInfo.getString("evolutionlevel"));
+					out.print("</td>");
+				}
+				else {
+					out.print("<td>None</td>");
+				}
+			}
+			
+		%>
+		</tr>
+	</table>
 	<br>
-	- Evolves into: none
-	<br><br>
 	<h3>Natural Learnset</h3>
 	<table style="border-spacing: 15px 2px;">
 		<tr>

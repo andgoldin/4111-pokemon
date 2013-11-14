@@ -56,6 +56,7 @@
 <title><%= moveInfo.getString("movename") %> - Move Information</title>
 </head>
 <body>
+	<a href="index.jsp">Back to Homepage</a><br>
 	<h2>Move: <i><%= moveInfo.getString("movename") %></i></h2>
 	<table style="border-spacing: 15px 2px;">
 		<tr>

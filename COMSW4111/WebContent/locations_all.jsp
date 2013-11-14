@@ -41,6 +41,7 @@
 <title>All Locations</title>
 </head>
 <body>
+	<a href="index.jsp">Back to Homepage</a><br>
 	<H2>ALL LOCATIONS</H2>
 	<table style="border-spacing: 15px 2px;">
 		<tr>
