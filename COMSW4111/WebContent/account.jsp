@@ -24,14 +24,15 @@
 		conn = ods.getConnection();
 		stmt = conn.createStatement();
 		if (request.getParameter("action") != null) {
-			if (request.getParameter("action").equals("createaccount")) {
+			String action = request.getParameter("action");
+			if (action.equals("createaccount")) {
 				stmt.executeUpdate(
 					"INSERT INTO Account VALUES (" + 
 						request.getParameter("id") + ", \'" + request.getParameter("displayname") + "\', " +
 						request.getParameter("exp") + ", \'" + request.getParameter("createdate") + "\')"
 					);
 			}
-			if (request.getParameter("action").equals("addpokemon")) {
+			else if (action.equals("addpokemon")) {
 				apid = stmt.executeQuery("SELECT MAX(AccountPokemonId) AS apid FROM ACCOUNTPOKEMON");
 				if (apid != null) apid.next();
 				String acctpokid = (apid.getInt("apid") + 1) + "";
@@ -42,18 +43,18 @@
 						"\', \'" + request.getParameter("nickname") + "\')"
 				);
 			}
-			else if (request.getParameter("action").equals("removepokemon")) {
+			else if (action.equals("removepokemon")) {
 				stmt.executeUpdate(
 					"DELETE FROM ACCOUNTPOKEMON WHERE AccountPokemonId = " + request.getParameter("actpkid")
 				);
 			}
-			else if (request.getParameter("action").equals("addbadge")) {
+			else if (action.equals("addbadge")) {
 				stmt.executeUpdate(
 					"INSERT INTO Earned VALUES (" + 
 						aid + ", " + request.getParameter("bid") + ", \'" + request.getParameter("earndate") + "\')"
 				);
 			}
-			else if (request.getParameter("action").equals("removebadge")) {
+			else if (action.equals("removebadge")) {
 				stmt.executeUpdate(
 					"DELETE FROM Earned WHERE AccountId = " + aid + " AND BadgeId = " + request.getParameter("badid")
 				);
