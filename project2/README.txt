@@ -10,12 +10,7 @@ Files submitted:
 
 Oracle account used: yg2346@ADB
 
-For this project, we updated our "Accounts" entity in our Pokemon database. To do this, we created a new object type called
-account_type, which contains as attributes the account's ID, the display name, the create date, a map member function to return
-the ID and a member function to calculate and return the user's experience level (between 0 and 100) based on the number of
-badges they have and the skill level of their Pokemon. In our previous design, user experience was an attribute of the Account
-entity. We realized that it would be more natural to represent accounts as object types, so that values like experience level could
-be computed dynamically and on-demand, and did not have to be stored as an attribute. The SQL for this new type looks like this:
+For this project, we updated our "Accounts" entity in our Pokemon database. To do this, we created a new object type called account_type, which contains as attributes the account's ID, the display name, the create date, a map member function to return the ID and a member function to calculate and return the user's experience level (between 0 and 100) based on the number of badges they have and the skill level of their Pokemon. In our previous design, user experience was an attribute of the Account entity. We realized that it would be more natural to represent accounts as object types, so that values like experience level could be computed dynamically and on-demand, and did not have to be stored as an attribute. We also created a table called Account_Type_Table which holds the account object types. The SQL for this new type looks like this:
 
 
 	CREATE OR REPLACE TYPE account_type AS OBJECT (
@@ -54,13 +49,9 @@ be computed dynamically and on-demand, and did not have to be stored as an attri
 	END;  
 	/
 	
+	CREATE TABLE account_type_table OF account_type;
 
-For a new relation that uses our new types, we decided to implement a "friends" relation, in which two accounts can be listed as
-friends, and contains interesting data associated with their friendship. To do this, we created a relation table called AcctRefFriends,
-which contains as attributes a FriendId (which serves as the primary key), a scoped REF to each account involved in the friend
-relation, the date the relationship was created, the number of battles the two users have had, the number of battle wins and losses, as
-well as a check constraing to ensure that the same relationship does not occur in the table more than once. Each friend relation has
-two tuples in the table in order to make it easy to represent the table as an undirected graph, hence making it easier to perform certain
-types of queries (we go into more detail with this in queries.txt). The SQL for this table is as follows:
+
+For a new relation that uses our new types, we decided to implement a "friends" relation, in which two accounts can be listed as friends, and contains interesting data associated with their friendship. To do this, we created a relation table called AcctRefFriends, which contains as attributes a FriendId (which serves as the primary key), a scoped REF to each account involved in the friend relation, the date the relationship was created, the number of battles the two users have had, the number of battle wins and losses, as well as a check constraint to ensure that the same relationship does not occur in the table more than once. Each friend relation has two tuples in the table in order to make it easy to represent the table as an undirected graph, hence making it easier to perform certain types of queries (we go into more detail with this in queries.txt). The SQL for this table is as follows:
 
 	-- INSERT SQL HERE!!!!
