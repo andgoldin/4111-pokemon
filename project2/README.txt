@@ -52,6 +52,19 @@ For this project, we updated our "Accounts" entity in our Pokemon database. To d
 	CREATE TABLE account_type_table OF account_type;
 
 
-For a new relation that uses our new types, we decided to implement a "friends" relation, in which two accounts can be listed as friends, and contains interesting data associated with their friendship. To do this, we created a relation table called AcctRefFriends, which contains as attributes a FriendId (which serves as the primary key), a scoped REF to each account involved in the friend relation, the date the relationship was created, the number of battles the two users have had, the number of battle wins and losses, as well as a check constraint to ensure that the same relationship does not occur in the table more than once. Each friend relation has two tuples in the table in order to make it easy to represent the table as an undirected graph, hence making it easier to perform certain types of queries (we go into more detail with this in queries.txt). The SQL for this table is as follows:
+For a new relation that uses our new types, we decided to implement a "friends" relation, in which two accounts can be listed as friends, and contains interesting data associated with their friendship. To do this, we created a relation table called AcctRefFriends, which contains as attributes a FriendId (which serves as the primary key), a scoped REF to each account involved in the friend relation, the date the relationship was created, the number of battles the two users have had, and the number of battle wins and losses. Each friend relation has two tuples in the table in order to make it easy to represent the table as an undirected graph, hence making it easier to perform certain types of queries (we go into more detail with this in queries.txt). The SQL for this table is as follows:
 
-	-- INSERT SQL HERE!!!!
+
+	CREATE TABLE AcctRefFriends (
+		FriendId INTEGER,
+		AccountId REF account_type SCOPE IS account_type_table,
+		FriendAccountId REF account_type SCOPE IS account_type_table,
+		SinceDate VARCHAR2(20),
+		TimesBattled INTEGER,
+		BattleWins INTEGER,
+		BattleLosses INTEGER,
+		PRIMARY KEY (FriendId)
+	);
+	
+	
+This design makes use of three of the OR features listed in the project description: (1) object types, with the new account_type object type, (2) object methods, with the get_account_id() and get_experience() methods of account_type, and (3) references (REF/DEREF), with making use of references in our new relation.
