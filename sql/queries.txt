@@ -1,0 +1,136 @@
+
+-- ==== QUERY 1 ====
+-- Get pokemon of accounts who have experience above 40
+-- Uses the Object method, get_experience()
+-- Sample execution follows
+
+SELECT 
+ ATT.account_id, 
+ ATT.display_name,
+ ATT.get_experience() as experience,
+ AP.PokemonId,
+ P.Name AS PokemonName
+FROM account_type_table ATT
+JOIN AccountPokemon AP
+  ON AP.AccountId = ATT.account_id
+JOIN Pokemon P
+  ON P.PokemonId = AP.PokemonId
+WHERE ATT.get_experience() > 40;
+
+
+
+ACCOUNT_ID DISPLAY_NAME                   EXPERIENCE  POKEMONID
+---------- ------------------------------ ---------- ----------
+POKEMONNAME
+--------------------
+         6 Andrew Goldin                          43          7
+Squirtle
+
+         6 Andrew Goldin                          43         64
+Kadabra
+
+         6 Andrew Goldin                          43         22
+Fearow
+
+        10 Zhiling Wan                            52         38
+Ninetales
+
+        10 Zhiling Wan                            52          2
+Ivysaur
+
+        10 Zhiling Wan                            52         93
+Haunter
+
+        11 Ash Ketchum                            62         25
+Pikachu
+
+        11 Ash Ketchum                            62          9
+Blastoise
+
+        11 Ash Ketchum                            62         21
+Spearow
+
+         5 Yufeng Guo                             52        150
+Mewtwo
+
+         5 Yufeng Guo                             52          6
+Charizard
+
+         5 Yufeng Guo                             52         36
+Clefable
+
+
+12 rows selected.
+
+
+-- ==== QUERY 2 ====
+-- We created a new table illustrating friendships.
+-- This query shows the friends within 2 degrees of a user account 11.
+--		The user queried for can be adjusted easily by replacing 11 in 3 places. 
+-- That is, anyone w/in 2 hops in the friendship graph. 
+-- It first computes the first hop, and then computes the 2nd hop. UNION ALL combines them.
+-- Sample execution follows
+
+(select 
+  1 as degreesRemoved,
+  deref(a.friendaccountid).display_name as friend,
+  deref(a.friendaccountid).get_experience() as Experience
+from acctreffriends a 
+where  deref(a.accountid).account_id =  11
+)
+UNION ALL
+(
+select 
+  2 as degreesRemoved,
+  deref(b.friendaccountid).display_name as friend,
+  deref(b.friendaccountid).get_experience() as Experience
+from acctreffriends a 
+left join acctreffriends b
+    on deref(b.accountid).account_id = deref(a.friendaccountid).account_id
+where  deref(a.accountid).account_id =  11
+AND deref(b.friendaccountid).account_id <> 11);
+
+
+DEGREESREMOVED FRIEND                         EXPERIENCE
+-------------- ------------------------------ ----------
+             1 Alex Biliris                           30
+             1 Andrew Goldin                          43
+             2 Jason Lee                              30
+             2 Liming Zhang                           18
+             2 Harshil Gandhi                         10
+
+
+
+			 
+
+-- ==== QUERY 3 ====
+-- We aim to explore whether there is a visible correlation between a user's experience and their win/loss ratio
+-- the query will find each account's wins, losses, ratio, and experience. 
+-- We only show account numbers here, as this is meant to be more of an "analytical" tool, so we don't want to expose that type of user data
+-- Sample execution follows
+
+select
+    deref(accountid).get_account_id() as account,
+    SUM(a.battlewins) as wins, 
+    SUM(a.battlelosses) as losses,
+    SUM(a.battlewins) /SUM(a.battlelosses) as ratio,
+    deref(a.accountid).get_experience() as experience
+from acctreffriends a
+GROUP BY deref(a.accountid);
+
+
+   ACCOUNT       WINS     LOSSES      RATIO EXPERIENCE
+---------- ---------- ---------- ---------- ----------
+         1          8         17 .470588235         30
+         2          5          4       1.25         21
+         3          2          4         .5         10
+         4          4          1          4         30
+         5         11         10        1.1         52
+         6         11          7 1.57142857         43
+         7          3          2        1.5         18
+         8          0          3          0         28
+         9          2          3 .666666667         13
+        10          6          7 .857142857         52
+        11         25         11 2.27272727         62
+
+11 rows selected.
